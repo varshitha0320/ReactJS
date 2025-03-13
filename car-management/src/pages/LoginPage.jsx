@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    setError(""); // Clear error when typing
   };
 
   const handleLogin = (e) => {
@@ -19,24 +22,24 @@ const LoginPage = () => {
       storedUser.password === credentials.password
     ) {
       alert("Login Successful!");
-      navigate("/dashboard"); // Redirect after login
+      navigate("/dashboard"); // Redirect to dashboard
     } else {
-      alert("Invalid credentials, please try again.");
+      setError("Invalid email or password. Please try again.");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h2 className="text-2xl font-semibold mb-4">Login</h2>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-md w-80">
-        <form onSubmit={handleLogin} className="flex flex-col">
+        <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
+        <form onSubmit={handleLogin} className="space-y-4">
           <input
             type="email"
             name="email"
             placeholder="Email"
             value={credentials.email}
             onChange={handleChange}
-            className="p-2 border rounded mb-2"
+            className="w-full p-2 border border-gray-300 rounded"
             required
           />
           <input
@@ -45,16 +48,23 @@ const LoginPage = () => {
             placeholder="Password"
             value={credentials.password}
             onChange={handleChange}
-            className="p-2 border rounded mb-3"
+            className="w-full p-2 border border-gray-300 rounded"
             required
           />
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
           <button
             type="submit"
-            className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition duration-300"
           >
             Login
           </button>
         </form>
+        <p className="text-center text-sm mt-4">
+          Don't have an account?{" "}
+          <a href="/register" className="text-blue-500 hover:underline">
+            Sign Up
+          </a>
+        </p>
       </div>
     </div>
   );

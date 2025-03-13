@@ -2,6 +2,7 @@ import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import CarContext from "../context/CarContext";
 
+
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
   const { cars } = useContext(CarContext);
